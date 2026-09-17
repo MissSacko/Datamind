@@ -8,7 +8,9 @@ import os
 
 from app.models.user import User
 from app.core.database import Base
-
+from app.models.dataset import Dataset
+from app.models.dataset_profile import DatasetProfile
+from app.models.column_profile import ColumnProfile
 
 from dotenv import load_dotenv
 load_dotenv()
