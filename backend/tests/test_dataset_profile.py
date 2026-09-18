@@ -82,7 +82,8 @@ def test_dataset_profiling_relationships():
         assert profile.columns[0].column_name == "revenue"
 
         # JSONB
-        assert profile.details["profiling_version"] == "1.0"
+        assert profile.details["profiling_version"] == ""
+        "1.0"
         assert column.statistics["mean"] == 15250.75
 
         print(f"Dataset : {dataset.name}")

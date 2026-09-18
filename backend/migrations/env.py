@@ -11,6 +11,8 @@ from app.core.database import Base
 from app.models.dataset import Dataset
 from app.models.dataset_profile import DatasetProfile
 from app.models.column_profile import ColumnProfile
+from app.models.analysis import Analysis
+from app.models.visualization import Visualization
 
 from dotenv import load_dotenv
 load_dotenv()
