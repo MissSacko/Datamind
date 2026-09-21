@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.dataset import Dataset
+    from app.models.conversation import Conversation
 
 
 class User(Base):
@@ -53,7 +54,10 @@ class User(Base):
     )
 
    
-
+    conversations: Mapped[list["Conversation"]] = relationship(
+    back_populates="user",
+    cascade="all, delete-orphan",
+)
 
     datasets: Mapped[list["Dataset"]] = relationship(
         back_populates="user",

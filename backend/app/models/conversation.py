@@ -2,7 +2,6 @@ from datetime import datetime, timezone
 from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, ForeignKey, String
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -10,11 +9,11 @@ from app.core.database import Base
 if TYPE_CHECKING:
     from app.models.user import User
     from app.models.dataset import Dataset
-    from app.models.visualization import Visualization
+    from app.models.message import Message
 
 
-class Analysis(Base):
-    __tablename__ = "analyses"
+class Conversation(Base):
+    __tablename__ = "conversations"
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -24,29 +23,15 @@ class Analysis(Base):
         index=True,
     )
 
-    dataset_id: Mapped[int] = mapped_column(
-        ForeignKey("datasets.id", ondelete="CASCADE"),
-        nullable=False,
+    dataset_id: Mapped[int | None] = mapped_column(
+        ForeignKey("datasets.id", ondelete="SET NULL"),
+        nullable=True,
         index=True,
     )
 
-    analysis_type: Mapped[str] = mapped_column(
-        String(100),
+    title: Mapped[str] = mapped_column(
+        String(255),
         nullable=False,
-    )
-
-    question: Mapped[str] = mapped_column(
-        String(1000),
-        nullable=False,
-    )
-    filters: Mapped[dict | None] = mapped_column(
-    JSONB,
-    nullable=True,
-    )
-
-    result: Mapped[dict | None] = mapped_column(
-        JSONB,
-        nullable=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
@@ -62,7 +47,15 @@ class Analysis(Base):
         nullable=False,
     )
 
-    visualizations: Mapped[list["Visualization"]] = relationship(
-        back_populates="analysis",
+    messages: Mapped[list["Message"]] = relationship(
+        back_populates="conversation",
         cascade="all, delete-orphan",
+    )
+
+    user: Mapped["User"] = relationship(
+        back_populates="conversations",
+    )
+
+    dataset: Mapped["Dataset | None"] = relationship(
+        back_populates="conversations",
     )

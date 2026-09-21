@@ -93,6 +93,7 @@ def test_analysis_visualization_cascade():
         assert db.get(Analysis, analysis_id) is None
         assert db.get(Visualization, visualization_1_id) is None
         assert db.get(Visualization, visualization_2_id) is None
+        
 
         # Nettoyage
         db.delete(user)
